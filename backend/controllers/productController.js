@@ -44,6 +44,21 @@ export const createProduct = async (req, res) => {
   }
 };
 
-export const getProduct = async (req, res) => {};
+export const getProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await sql`SELECT * FROM products WHERE id = ${id}`;
+    console.log("fetched product", product);
+    res.status(200).json({
+      success: true,
+      data: product[0],
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: "Server error",
+    });
+  }
+};
 export const updateProduct = async (req, res) => {};
 export const deleteProduct = async (req, res) => {};
