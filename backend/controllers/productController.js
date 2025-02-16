@@ -60,5 +60,32 @@ export const getProduct = async (req, res) => {
     });
   }
 };
-export const updateProduct = async (req, res) => {};
+export const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, image, price } = req.body;
+
+  try {
+    const product = await sql`
+            UPDATE products
+            SET name = ${name}, image = ${image}, price = ${price}
+            WHERE id = ${id}
+            RETURNING *`;
+    if (product.length === 0) {
+      res.status(404).json({
+        success: false,
+        error: "Product not found",
+      });
+    }
+    console.log("updated product", product);
+    res.status(200).json({
+      success: true,
+      data: product[0],
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: "Server error",
+    });
+  }
+};
 export const deleteProduct = async (req, res) => {};
