@@ -18,7 +18,31 @@ export const getProducts = async (req, res) => {
   }
 };
 
-export const createProduct = async (req, res) => {};
+export const createProduct = async (req, res) => {
+  const { name, image, price } = req.body; // Destructuring the request body with the use of express.json() middleware in server.js file
+  if (!name || !image || !price) {
+    return res.status(400).json({
+      success: false,
+      error: "All fields are required",
+    });
+  }
+  try {
+    const product = await sql`
+        INSERT INTO products (name, image, price)
+        VALUES (${name}, ${image}, ${price})
+        RETURNING *`;
+    console.log("created product", product);
+    res.status(201).json({
+      success: true,
+      data: product[0],
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: "Server error",
+    });
+  }
+};
 
 export const getProduct = async (req, res) => {};
 export const updateProduct = async (req, res) => {};
