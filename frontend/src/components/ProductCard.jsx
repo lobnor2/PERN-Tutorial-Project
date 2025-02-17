@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
         <div>{product.name}</div>
         <div>${product.price}</div>
       </div>
-      <div className="flex mt-3 border border-blue-600 gap-3">
+      <div className="flex mt-3 border border-blue-600 gap-5 w-full justify-center">
         <Link to={`/product/${product.id}`}>
           <Button variant={"outline"}>Edit</Button>
         </Link>
