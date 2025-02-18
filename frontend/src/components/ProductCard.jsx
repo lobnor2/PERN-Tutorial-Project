@@ -1,8 +1,10 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { useProductStore } from "@/store/useProductStore";
 
 const ProductCard = ({ product }) => {
+  const { deleteProduct } = useProductStore();
   return (
     <div
       key={product.id}
@@ -21,9 +23,16 @@ const ProductCard = ({ product }) => {
       </div>
       <div className="flex mt-3 border border-blue-600 gap-5 w-full justify-center">
         <Link to={`/product/${product.id}`}>
-          <Button variant={"outline"}>Edit</Button>
+          <Button variant={"outline"} className="cursor-pointer">
+            Edit
+          </Button>
         </Link>
-        <Button>Delete</Button>
+        <Button
+          onClick={() => deleteProduct(product.id)}
+          className="cursor-pointer"
+        >
+          Delete
+        </Button>
       </div>
     </div>
   );
