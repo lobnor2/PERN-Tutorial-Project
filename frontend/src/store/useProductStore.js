@@ -42,4 +42,6 @@ export const useProductStore = create((set, get) => ({
       set({ loading: false });
     }
   },
+
+  addProduct: async (product) => {},
 }));
