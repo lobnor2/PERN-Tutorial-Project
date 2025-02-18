@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
       key={product.id}
       className="border border-red-700 flex flex-col justify-between items-center p-5"
     >
-      <div className="border border-blue-500 flex flex-col items-center">
+      <div className="flex flex-col items-center">
         <div>
           <img
             src={product.image}
@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
         <div>{product.name}</div>
         <div>${product.price}</div>
       </div>
-      <div className="flex mt-3 border border-blue-600 gap-5 w-full justify-center">
+      <div className="flex mt-3 gap-5 w-full justify-center">
         <Link to={`/product/${product.id}`}>
           <Button variant={"outline"} className="cursor-pointer">
             Edit

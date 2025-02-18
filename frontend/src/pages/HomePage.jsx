@@ -11,16 +11,13 @@ const HomePage = () => {
     fetchProducts();
   }, [fetchProducts]);
 
-  console.log("this is products", products);
   return (
     <div>
-      <div className="flex items-center justify-between border border-blue-600 px-16 mt-5">
-        <Button className="cursor-pointer">Add Product</Button>
-        <Button
-          className="w-16 cursor-pointer"
-          variant="outline"
-          onClick={fetchProducts}
-        >
+      <div className="flex items-center justify-between px-5 mt-5">
+        <Button className="cursor-pointer" variant="outline">
+          Add Product
+        </Button>
+        <Button className="w-16 cursor-pointer" onClick={fetchProducts}>
           <RefreshCcw className="" />
         </Button>
       </div>
