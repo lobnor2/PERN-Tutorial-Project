@@ -12,6 +12,37 @@ export const useProductStore = create((set, get) => ({
   products: [],
   loading: false,
   error: null,
+  isOpen: false,
+  setIsOpen: (open) => set({ isOpen: open }),
+
+  //form state
+  formData: {
+    name: "",
+    price: "",
+    image: "",
+  },
+
+  setFormData: (formData) => set({ formData }),
+  resetForm: () => set({ formData: { name: "", price: "", image: "" } }),
+
+  addProduct: async (e) => {
+    e.preventDefault();
+    set({ loading: true });
+    try {
+      const { formData } = get();
+      await api.post("/api/products", formData);
+      await get().fetchProducts();
+      get().resetForm();
+      toast.success("Product added successfully");
+
+      // close the dialog
+      get().setIsOpen(false);
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      set({ loading: false });
+    }
+  },
 
   fetchProducts: async () => {
     set({ loading: true });
@@ -42,6 +73,4 @@ export const useProductStore = create((set, get) => ({
       set({ loading: false });
     }
   },
-
-  addProduct: async (product) => {},
 }));
