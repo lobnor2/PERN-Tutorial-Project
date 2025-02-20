@@ -27,10 +27,25 @@ export const useProductStore = create((set, get) => ({
 
   addProduct: async (e) => {
     e.preventDefault();
+
+    const { formData } = get(); //Get formData from state first
+    console.log("formdata => ", formData);
+
+    //Validate form data
+    if (!formData.name || !formData.price || !formData.image) {
+      toast.error("All fields are required");
+      return;
+    }
+
     set({ loading: true });
+
     try {
-      const { formData } = get();
-      await api.post("/api/products", formData);
+      //   await api.post("/api/products", formData);
+      //convert price to number
+      await api.post("/api/products", {
+        ...formData,
+        price: parseFloat(formData.price),
+      });
       await get().fetchProducts();
       get().resetForm();
       toast.success("Product added successfully");
