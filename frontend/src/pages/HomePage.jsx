@@ -15,20 +15,26 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 const HomePage = () => {
-  const { products, loading, error, fetchProducts } = useProductStore();
+  const {
+    products,
+    loading,
+    error,
+    fetchProducts,
+    isOpen,
+    setIsOpen,
+    addProduct,
+    setFormData,
+    formData,
+  } = useProductStore();
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <div>
       <div className="flex items-center justify-between px-5 mt-5">
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <Button className="cursor-pointer" variant="outline">
               Add Product
@@ -38,22 +44,61 @@ const HomePage = () => {
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="">
-                <Input id="" value="" className="" placeholder="Product Name" />
+            <form onSubmit={addProduct}>
+              <div className="grid gap-4 py-4">
+                <div className="">
+                  <Input
+                    required
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        name: e.target.value,
+                      })
+                    }
+                    placeholder="Product Name"
+                  />
+                </div>
+                <div className="">
+                  <Input
+                    required
+                    value={formData.price}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        price: e.target.value,
+                      })
+                    }
+                    type="number"
+                    placeholder="$ 0.00"
+                  />
+                </div>
+                <div className="">
+                  <Input
+                    required
+                    value={formData.image}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        image: e.target.value,
+                      })
+                    }
+                    type="url"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
               </div>
-              <div className="">
-                <Input id="price" value="" className="" placeholder="Price" />
-              </div>
-              <div className="">
-                <Input id="" value="" className="" placeholder="Image URL" />
-              </div>
-            </div>
-            <DialogFooter className="">
-              <Button type="submit" className="cursor-pointer">
-                Add Product
-              </Button>
-            </DialogFooter>
+              <DialogFooter className="">
+                <Button
+                  type="submit"
+                  className="cursor-pointer"
+                  disabled={loading}
+                >
+                  {loading ? "Adding..." : "Add Product"}
+                </Button>
+              </DialogFooter>
+            </form>
           </DialogContent>
         </Dialog>
         <Button className="w-16 cursor-pointer" onClick={fetchProducts}>
